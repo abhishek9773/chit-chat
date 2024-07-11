@@ -1,12 +1,20 @@
 import EmojiPicker from "emoji-picker-react";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { IoMdAdd } from "react-icons/io";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
 
 const SendMessage = () => {
   const [openEmoji, setOpenEmoji] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const inputRef = useRef(null);
+
+  const [isOpenFile, setIsOpenFile] = useState(false);
+
+  const handleOpenFile = () => {
+    setIsOpenFile(!isOpenFile);
+  };
 
   const onEmojiClick = (emojiData, event) => {
     const emoji = emojiData.emoji || emojiData.native;
@@ -33,16 +41,40 @@ const SendMessage = () => {
     });
   };
 
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (inputValue.trim() === "") {
+      alert("message is empty");
+      return;
+    }
+    console.log(inputValue);
+  };
+
   return (
     <div className="">
       <div className="container fixed bottom-0 w-full py-10 shadow-lg">
-        <form className="px-1 containerWrap flex">
+        <form onSubmit={handleSendMessage} className="px-1 containerWrap flex">
           <div className="px-2 w-auto py-2 cursor-pointer">
             <MdOutlineEmojiEmotions
               onClick={handleOpenEmoji}
               size={30}
               className="text-black/60 dark:text-white/80 hover:text-gray-600"
             />
+          </div>
+          <div className="px-2 w-auto py-2 cursor-pointer">
+            {isOpenFile ? (
+              <RxCross2
+                onClick={handleOpenFile}
+                size={30}
+                className="text-black/60 dark:text-white/80 hover:text-gray-600"
+              />
+            ) : (
+              <IoMdAdd
+                size={30}
+                onClick={handleOpenFile}
+                className="text-black/60 dark:text-white/80 hover:text-gray-600"
+              />
+            )}
           </div>
           <input
             className="input w-full focus:outline-none bg-gray-100 rounded-r-none"
@@ -62,7 +94,7 @@ const SendMessage = () => {
       </div>
 
       {openEmoji && (
-        <EmojiPicker className="bottom-5" onEmojiClick={onEmojiClick} />
+        <EmojiPicker className="bottom-0 mt-10 " onEmojiClick={onEmojiClick} />
       )}
     </div>
   );
