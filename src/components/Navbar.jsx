@@ -6,7 +6,7 @@ const Navbar = () => {
     <header>
       <div className="container p-4 marker: flex justify-between items-center">
         <div className="text-2xl font-bold">
-          chit<span className="text-red-500 text-3xl">/ </span>chat
+          chit<span className="text-red-500 text-3xl">/</span>chat
         </div>
         <div className="flex items-center gap-8">
           <IoNotifications
